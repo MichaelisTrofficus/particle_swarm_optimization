@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import Tuple, List, Callable
+from typing import Tuple, List, Callable, Dict
 
 import numpy as np
 
@@ -9,14 +9,14 @@ class Particle:
     Class that implements a Particle / Candidate Solution
     """
     def __init__(self,
-                 lower_limit: float,
-                 upper_limit: float,
                  fitness_fun: Callable,
                  alpha: float,
                  beta: float,
                  gamma: float,
                  delta: float,
                  epsilon: float,
+                 lower_limit: float,
+                 upper_limit: float,
                  dimension: int = 3):
         """
         :param lower_limit: The lower limit of the random selection
@@ -38,6 +38,19 @@ class Particle:
         self.individual_position_best = self.individual_position
         self.individual_position_fitness = self.fitness_fun(self.individual_position)
         self.individual_position_best_fitness = self.individual_position_fitness
+
+    @classmethod
+    def from_dict(cls, data: Dict) -> 'Particle':
+        return cls(fitness_fun=data.get("fitness_fun"),
+                   alpha=data.get("alpha"),
+                   beta=data.get("beta"),
+                   gamma=data.get("gamma"),
+                   delta=data.get("delta"),
+                   epsilon=data.get("epsilon"),
+                   lower_limit=data.get("lower_limit"),
+                   upper_limit=data.get("upper_limit"),
+                   dimension=data.get("dimension")
+                   )
 
     @staticmethod
     def _get_initial_pos_vel(lower_limit: float, upper_limit: float, dimension: int) -> Tuple[np.ndarray, np.ndarray]:
@@ -94,3 +107,4 @@ class Particle:
 
         if self.get_individual_position_fitness() < self.get_individual_position_best_fitness():
             self.individual_position_best = self.individual_position
+
