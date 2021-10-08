@@ -1,19 +1,8 @@
-from typing import Callable
-
 import numpy as np
 
 
 def paraboloid(point: np.ndarray) -> float:
     return float(np.sum(point**2))
-
-
-def ackley(point: np.ndarray) -> float:
-    return -20*np.exp(-0.2*np.sqrt(0.5*(np.sum(point**2)))) - np.exp(0.5*np.sum(np.cos(2*np.pi*point))) + np.e + 20
-
-
-def styblinski(point: np.ndarray) -> float:
-    return (1.5 - point[0] + point[0] * point[1]) ** 2 + (2.25 - point[0] + point[0] * (point[1] ** 2)) ** 2 + (
-                2.625 - point[0] + point[0] * (point[1]) ** 3) ** 2
 
 
 def paraboloid_plot(n: int):
@@ -27,31 +16,4 @@ def paraboloid_plot(n: int):
             x3[i, j] = paraboloid(params)
 
     return x1, x2, x3
-
-
-def ackley_plot(n: int):
-    x1 = np.linspace(-10, 10, n)
-    x2 = x1.copy()
-    x3 = np.zeros(shape=(x1.shape[0], x2.shape[0]))
-
-    for i, a1 in enumerate(x1):
-        for j, a2 in enumerate(x2):
-            params = np.array([a2, a1])
-            x3[i, j] = ackley(params)
-
-    return x1, x2, x3
-
-
-def styblinski_plot(n: int):
-    x1 = np.linspace(-6.5, 6.5, n)
-    x2 = x1.copy()
-    x3 = np.zeros(shape=(x1.shape[0], x2.shape[0]))
-
-    for i, a1 in enumerate(x1):
-        for j, a2 in enumerate(x2):
-            params = np.array([a2, a1])
-            x3[i, j] = styblinski(params)
-
-    return x1, x2, x3
-
 
