@@ -35,7 +35,7 @@ class Particle:
         self.dimension = dimension
 
         self.individual_position, self.velocity = self._get_initial_pos_vel(lower_limit, upper_limit, dimension)
-        self.individual_position_best = self.individual_position
+        self.individual_position_best = self.individual_position.copy()
         self.individual_position_fitness = self.fitness_fun(self.individual_position)
         self.individual_position_best_fitness = self.individual_position_fitness
 
@@ -88,7 +88,7 @@ class Particle:
         if min_index == len(informants_best_position) - 1:
             return self.get_individual_position_best()
 
-        return informants[min_index].get_individual_position_best_fitness()
+        return informants[min_index].get_individual_position_best()
 
     def update_position_velocity(self, informants: List['Particle'], global_position_best: np.ndarray):
 
