@@ -41,7 +41,7 @@ class Swarm:
         self.animation_particle_information = dict()
 
     def _calculate_global_position_best(self, particles: List[Particle]):
-        fitness_arr = [p.get_individual_position_fitness for p in particles]
+        fitness_arr = [p.get_individual_position_fitness() for p in particles]
         min_index = np.argmin(fitness_arr)
 
         if fitness_arr[min_index] < self.global_position_best_fitness:
@@ -50,16 +50,17 @@ class Swarm:
 
     @staticmethod
     def _get_informants(p_id: int, particles: List[Particle], n_informants: int) -> List[Particle]:
-        particles.pop(p_id)
+        particles_informants = particles[:]
+        particles_informants.pop(p_id)
         informants = np.random.choice(particles, size=n_informants, replace=False)
         return informants
 
     def _create_animation_data_collector(self, particles: List[Particle]):
         for p_id, p in enumerate(particles):
-            self.animation_particle_information[str(p_id)] = p.get_individual_position()
+            self.animation_particle_information[str(p_id)] = [p.get_individual_position()]
 
     def _add_animation_position(self, p_id: int, particle: Particle):
-        self.animation_particle_information[p_id] = particle.get_individual_position()
+        self.animation_particle_information[str(p_id)].append(particle.get_individual_position())
 
     def get_global_position_best(self):
         return self.global_position_best
@@ -96,10 +97,3 @@ class Swarm:
 
                 # 2.2 Update particle position and velocity
                 p.update_position_velocity(informants, self.get_global_position_best())
-
-
-
-
-
-
-
